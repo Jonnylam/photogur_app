@@ -1,7 +1,11 @@
 class PicturesController < ApplicationController
 
   def index
-  	@pictures = Picture.all 
+  	@most_recent_pictures = Picture.most_recent_five
+    # most_recent_five is a class method, so move to class method.  Called a scope, normally write it with a special syntax
+        #Pictures.all
+        #pictures.created_before(2.days.ago)
+      @created_before = Picture.created_before(2.days.ago)
   end
 
   def new
@@ -19,6 +23,7 @@ class PicturesController < ApplicationController
     if @picture.save
       # if the save for the picture was successful, go to index.html.erb
       redirect_to "/pictures/#{@picture.id}"
+      # redirect_to pictures_path(@picture.url)
     else
       # otherwise render the view associated with the action :new (i.e. new.html.erb)
       render :new
@@ -34,6 +39,7 @@ class PicturesController < ApplicationController
 
     if @picture.update_attributes(picture_params)
       redirect_to "/pictures/#{@picture.id}"
+      #redirect_to pictures_path(:id)
     else
       render :edit
     end

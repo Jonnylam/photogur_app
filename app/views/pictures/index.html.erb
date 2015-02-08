@@ -1,7 +1,20 @@
-<h1>Pictures (<%= @pictures.length %>)</h1>
+<h1>Pictures (<%= @created_before.length %>)</h1>
 <%= link_to "New Picture", "/pictures/new" %>
 
-<% @pictures.each do |picture| %>
+<% @most_recent_pictures.each do |picture| %>
   <p><%= picture.title %>, <%= picture.artist %></p>
   <%= link_to image_tag(picture.url), "/pictures/#{picture.id}" %>
 <% end %>
+
+<!-- Use the route helper - picture_path(picture) -->
+
+<h1>Most recent pictures</h1>
+<ul>
+  <% @most_recent_pictures.each do |picture| %>
+    <li><%= picture.title %></li>
+  <% end %>
+</ul>
+
+<h1>
+Number of Pictures created <%= Picture.created_before(2.days.ago).count %>
+</h1>
